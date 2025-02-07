@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.2</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.hype360kh</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0.0</version>
+    <name>parent</name>
+    <packaging>pom</packaging>
+    <description>parent</description>
+    <url/>
+    <licenses>
+        <license/>
+    </licenses>
+    <developers>
+        <developer/>
+    </developers>
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
+    <properties>
+        <java.version>17</java.version>
+        <maven.surefire-plugin.version>3.5.2</maven.surefire-plugin.version>
+        <spring-boot.version>3.4.2</spring-boot.version>
+        <skipTests>true</skipTests>
+        <lib-shared.version>1.0.0</lib-shared.version>
+    </properties>
+
+    <modules>
+        <!-- Libs -->
+        <module>../libs/lib-shared</module>
+        <!-- Servers -->
+        <module>../servers/server-discovery</module>
+        <module>../servers/server-gateway</module>
+        <module>../servers/server-config</module>
+        <!-- Services -->
+        <module>../services/service-catalog</module>
+        <module>../services/service-dashboard</module>
+        <module>../services/service-file-manager</module>
+        <module>../services/service-payment</module>
+        <module>../services/service-profile</module>
+        <module>../services/service-report</module>
+    </modules>
+
+    <dependencies>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.hype360kh</groupId>
+                <artifactId>lib-shared</artifactId>
+                <version>${lib-shared.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire-plugin.version}</version>
+                    <configuration>
+                        <skipTests>${skipTests}</skipTests>
+                        <testFailureIgnore>true</testFailureIgnore>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <configuration>
+                        <outputDirectory>${project.parent.basedir}/dist</outputDirectory>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

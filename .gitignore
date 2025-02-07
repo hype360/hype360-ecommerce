@@ -1,0 +1,68 @@
+# Compiled class files
+*.class
+
+# Log files
+logs/
+*.log
+*.out
+
+# Maven dependencies
+.m2/
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle dependencies
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE-specific files
+### IntelliJ ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+dist/
+
+### Eclipse ###
+*.metadata
+*.classpath
+*.project
+.settings/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+application.properties
+application.yml
+application-*.properties
+application-*.yml
+
+# Security keys
+*.jks
+*.keystore
+*.p12
+*.pem
+*.crt
+*.key
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# Docker and CI/CD
+docker-compose.override.yml
+.docker/
+.dockerignore
+
+*~
