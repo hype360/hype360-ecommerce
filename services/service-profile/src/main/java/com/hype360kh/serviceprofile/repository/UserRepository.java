@@ -1,6 +1,6 @@
-package com.hype360kh.servicecatalog.repository;
+package com.hype360kh.serviceprofile.repository;
 
-import com.hype360kh.servicecatalog.model.entity.UserEntity;
+import com.hype360kh.serviceprofile.model.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

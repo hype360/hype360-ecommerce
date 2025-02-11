@@ -1,10 +1,15 @@
-package com.hype360kh.servicecatalog.service;
+package com.hype360kh.libcommonservices.services;
 
+import com.hype360kh.libcommonservices.services.specifications.SearchCriteria;
+import com.hype360kh.libcommonservices.services.specifications.SpecificationBuilder;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
  * Abstract service class providing CRUD operations.
@@ -14,70 +19,46 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @param <ID> the ID type
  * @param <R>  the repository type
  */
-public abstract class AbstractCrudService<E, D, ID, R extends JpaRepository<E, ID>> {
+@RequiredArgsConstructor
+public abstract class AbstractCrudService<E, D, ID, R extends JpaRepository<E, ID> & JpaSpecificationExecutor<E>> {
 
   protected final R repository;
   protected final ModelMapper modelMapper;
   private final Class<D> dtoClass;
   private final Class<E> entityClass;
 
-  /**
-   * Constructor for AbstractCrudService.
-   *
-   * @param repository  the repository
-   * @param modelMapper the model mapper
-   * @param dtoClass    the DTO class
-   * @param entityClass the entity class
-   */
-  protected AbstractCrudService(R repository, ModelMapper modelMapper, Class<D> dtoClass,
-      Class<E> entityClass) {
-    this.repository = repository;
-    this.modelMapper = modelMapper;
-    this.dtoClass = dtoClass;
-    this.entityClass = entityClass;
-  }
-
-  /**
-   * Retrieves all entities and maps them to DTOs.
-   *
-   * @return a list of DTOs
-   */
   public List<D> getAll() {
     return repository.findAll().stream()
         .map(entity -> modelMapper.map(entity, dtoClass))
         .collect(Collectors.toList());
   }
 
-  /**
-   * Retrieves an entity by its ID and maps it to a DTO.
-   *
-   * @param id the ID of the entity
-   * @return an optional DTO
-   */
+  public List<D> getAll(Specification<E> spec) {
+    return repository.findAll(spec).stream()
+        .map(entity -> modelMapper.map(entity, dtoClass))
+        .collect(Collectors.toList());
+  }
+
+  public List<D> getAll(List<SearchCriteria> criteriaList) {
+    SpecificationBuilder<E> builder = new SpecificationBuilder<>();
+    criteriaList.forEach(
+        criteria -> builder.with(criteria.getKey(), criteria.getOperation(), criteria.getValue(),
+            criteria.isOrPredicate()));
+    Specification<E> spec = builder.build();
+    return getAll(spec);
+  }
+
   public Optional<D> getById(ID id) {
     return repository.findById(id)
         .map(entity -> modelMapper.map(entity, dtoClass));
   }
 
-  /**
-   * Creates a new entity from a DTO.
-   *
-   * @param dto the DTO
-   * @return the created DTO
-   */
   public D create(D dto) {
     E entity = modelMapper.map(dto, entityClass);
     entity = repository.save(entity);
     return modelMapper.map(entity, dtoClass);
   }
 
-  /**
-   * Updates an existing entity with data from a DTO.
-   *
-   * @param id  the ID of the entity
-   * @param dto the DTO
-   * @return an optional updated DTO
-   */
   public Optional<D> update(ID id, D dto) {
     return repository.findById(id)
         .map(existingEntity -> {
@@ -87,11 +68,6 @@ public abstract class AbstractCrudService<E, D, ID, R extends JpaRepository<E, I
         });
   }
 
-  /**
-   * Deletes an entity by its ID.
-   *
-   * @param id the ID of the entity
-   */
   public void delete(ID id) {
     repository.deleteById(id);
   }

@@ -1,8 +1,10 @@
-package com.hype360kh.servicecatalog.service;
+package com.hype360kh.serviceprofile.service;
 
-import com.hype360kh.servicecatalog.model.dto.UserDto;
-import com.hype360kh.servicecatalog.model.entity.UserEntity;
-import com.hype360kh.servicecatalog.repository.UserRepository;
+
+import com.hype360kh.libcommonservices.services.AbstractCrudService;
+import com.hype360kh.serviceprofile.model.dto.UserDto;
+import com.hype360kh.serviceprofile.model.entity.UserEntity;
+import com.hype360kh.serviceprofile.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

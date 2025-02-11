@@ -1,4 +1,4 @@
-package com.hype360kh.servicecatalog.model.entity;
+package com.hype360kh.serviceprofile.model.entity;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;

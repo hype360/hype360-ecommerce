@@ -1,7 +1,7 @@
-package com.hype360kh.servicecatalog.controller;
+package com.hype360kh.serviceprofile.controller;
 
-import com.hype360kh.servicecatalog.model.dto.UserDto;
-import com.hype360kh.servicecatalog.service.UserService;
+import com.hype360kh.serviceprofile.model.dto.UserDto;
+import com.hype360kh.serviceprofile.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;

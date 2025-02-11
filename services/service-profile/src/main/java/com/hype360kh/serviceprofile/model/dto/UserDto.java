@@ -1,4 +1,4 @@
-package com.hype360kh.servicecatalog.model.dto;
+package com.hype360kh.serviceprofile.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
