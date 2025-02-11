@@ -1,5 +1,6 @@
 package com.hype360kh.serviceprofile.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,6 +26,9 @@ public class UserDto {
   @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
   @Schema(description = "Username", example = "john_doe")
   private String username;
+
+  @JsonIgnore
+  private String password;
 
   @NotBlank(message = "Email is mandatory")
   @Email(message = "Email should be valid")

@@ -1,6 +1,9 @@
 package com.hype360kh.libcommonservices.services;
 
+import com.hype360kh.libcommonservices.services.exception.ConflictException;
+import com.hype360kh.libcommonservices.services.exception.ResourceNotFoundException;
 import com.hype360kh.libcommonservices.services.specifications.SearchCriteria;
+import com.hype360kh.libcommonservices.services.specifications.SearchOperation;
 import com.hype360kh.libcommonservices.services.specifications.SpecificationBuilder;
 import java.util.List;
 import java.util.Optional;
@@ -48,9 +51,30 @@ public abstract class AbstractCrudService<E, D, ID, R extends JpaRepository<E, I
     return getAll(spec);
   }
 
+  public Optional<D> getOne(Specification<E> spec) {
+    return repository.findOne(spec)
+        .map(entity -> modelMapper.map(entity, dtoClass));
+  }
+
+  public Optional<D> getOne(List<SearchCriteria> criteriaList) {
+    SpecificationBuilder<E> builder = new SpecificationBuilder<>();
+    criteriaList.forEach(
+        criteria -> builder.with(criteria.getKey(), criteria.getOperation(), criteria.getValue(),
+            criteria.isOrPredicate()));
+    Specification<E> spec = builder.build();
+    return repository.findOne(spec)
+        .map(entity -> modelMapper.map(entity, dtoClass));
+  }
+
   public Optional<D> getById(ID id) {
     return repository.findById(id)
         .map(entity -> modelMapper.map(entity, dtoClass));
+  }
+
+  public D getByIdOrThrow(ID id) {
+    return repository.findById(id)
+        .map(entity -> modelMapper.map(entity, dtoClass))
+        .orElseThrow(() -> new ResourceNotFoundException("Resource not found with ID: " + id));
   }
 
   public D create(D dto) {
@@ -70,5 +94,21 @@ public abstract class AbstractCrudService<E, D, ID, R extends JpaRepository<E, I
 
   public void delete(ID id) {
     repository.deleteById(id);
+  }
+
+  protected void throwIfNotFound(String key, Object value) {
+    this.getOne(
+            List.of(new SearchCriteria(key, SearchOperation.EQUALITY, value, false)))
+        .ifPresent(entity -> {
+          throw new ResourceNotFoundException("Resource not found with " + key + ": " + value);
+        });
+  }
+
+  protected void throwIfAlreadyExisted(String key, Object value) {
+    this.getOne(
+            List.of(new SearchCriteria(key, SearchOperation.EQUALITY, value, false)))
+        .ifPresent(entity -> {
+          throw new ConflictException("Resource already exists with " + key + ": " + value);
+        });
   }
 }

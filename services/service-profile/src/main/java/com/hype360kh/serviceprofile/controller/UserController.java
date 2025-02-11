@@ -52,8 +52,7 @@ public class UserController {
   @GetMapping("/{id}")
   @Operation(summary = "Get user by ID", description = "Retrieve a user by their ID")
   public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
-    Optional<UserDto> user = userService.getById(id);
-    return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    return ResponseEntity.ok(userService.getByIdOrThrow(id));
   }
 
   /**

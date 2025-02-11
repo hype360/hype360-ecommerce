@@ -33,7 +33,7 @@ public class PasswordGenerator {
    * @return the generated password.
    * @throws IllegalArgumentException if no character categories are selected or length is invalid.
    */
-  public String generatePassword() {
+  public String generate() {
     if (length <= 0) {
       throw new IllegalArgumentException("Password length must be greater than 0");
     }
@@ -64,6 +64,10 @@ public class PasswordGenerator {
     }
 
     return password.toString();
+  }
+
+  public static Builder builder() {
+    return new Builder();
   }
 
   /**
