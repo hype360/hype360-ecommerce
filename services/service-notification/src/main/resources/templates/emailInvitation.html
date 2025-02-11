@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${subject}">Email Subject</title>
+  <style>
+    body {
+      font-family: 'Consolas', monospace;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+
+    .email-container {
+      width: 100%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 30px 20px 20px;
+      margin: 100px auto 0;
+    }
+
+    .email-header {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+
+    .email-header h1 {
+      color: #007bff;
+      font-size: 28px;
+      margin: 0;
+    }
+
+    .email-body {
+      font-size: 16px;
+      color: #495057;
+      line-height: 1.5;
+    }
+
+    .email-body p {
+      margin: 10px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: #ffffff;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #868e96;
+      margin-top: 30px;
+    }
+
+    .footer p {
+      margin: 5px 0;
+    }
+
+    @media screen and (max-width: 600px) {
+      .email-container {
+        padding: 10px;
+      }
+
+      .email-header h1 {
+        font-size: 24px;
+      }
+
+      .email-body {
+        font-size: 14px;
+      }
+    }
+  </style>
+  <!-- Google Fonts: Consolas -->
+  <link href="https://fonts.googleapis.com/css2?family=Consolas&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="email-container">
+  <div class="email-header">
+    <h1 th:text="${subject}">Email Subject</h1>
+  </div>
+  <div class="email-body">
+    <p th:text="'Hello, ' + ${name} + '!'">Hello, Name!</p>
+    <p th:text="${message}">Your message goes here.</p>
+    <p><strong>Your login credentials:</strong></p>
+    <ul>
+      <li><strong>Username:</strong> <span th:text="${username}">username@example.com</span></li>
+      <li><strong>Password:</strong> <span th:text="${password}">password</span></li>
+    </ul>
+    <p>Click the link below to log in:</p>
+    <a th:href="${link}" class="btn">Login Now</a>
+  </div>
+  <div class="footer">
+    <p>If you have any questions, feel free to contact us.</p>
+    <p>&copy; 2025 RND Service Provider, Co. Ltd. All rights reserved.</p>
+  </div>
+</div>
+</body>
+</html>

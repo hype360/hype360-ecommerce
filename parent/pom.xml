@@ -53,6 +53,7 @@
     <module>../services/service-payment</module>
     <module>../services/service-profile</module>
     <module>../services/service-report</module>
+    <module>../services/service-notification</module>
   </modules>
 
   <dependencies>
