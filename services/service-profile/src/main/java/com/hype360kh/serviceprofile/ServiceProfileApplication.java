@@ -11,7 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableFeignClients
 @ComponentScan(basePackages = {
     "com.hype360kh.libcommonservices.services.exception",
-    "com.hype360kh.serviceprofile"
+    "com.hype360kh.serviceprofile",
+    "security.jwt"
 })
 public class ServiceProfileApplication {
 

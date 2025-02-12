@@ -96,6 +96,26 @@ public abstract class AbstractCrudService<E, D, ID, R extends JpaRepository<E, I
     repository.deleteById(id);
   }
 
+  public D entityToDto(E entity) {
+    return modelMapper.map(entity, dtoClass);
+  }
+
+  public E dtoToEntity(D dto) {
+    return modelMapper.map(dto, entityClass);
+  }
+
+  public List<D> entityListToDtoList(List<E> entityList) {
+    return entityList.stream()
+        .map(this::entityToDto)
+        .collect(Collectors.toList());
+  }
+
+  public List<E> dtoListToEntityList(List<D> dtoList) {
+    return dtoList.stream()
+        .map(this::dtoToEntity)
+        .collect(Collectors.toList());
+  }
+
   protected void throwIfNotFound(String key, Object value) {
     this.getOne(
             List.of(new SearchCriteria(key, SearchOperation.EQUALITY, value, false)))

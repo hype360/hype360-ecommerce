@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +22,7 @@ public class UserDto {
 
   @NotBlank(message = "Username is mandatory")
   @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
-  @Schema(description = "Username", example = "john_doe")
+  @Schema(description = "Username", example = "john-doe@example.com")
   private String username;
 
   @JsonIgnore
@@ -32,10 +30,6 @@ public class UserDto {
 
   @NotBlank(message = "Email is mandatory")
   @Email(message = "Email should be valid")
-  @Schema(description = "Email address", example = "john_doe@example.com")
+  @Schema(description = "Email address", example = "john-doe@example.com")
   private String email;
-
-  @NotNull(message = "Roles are mandatory")
-  @Schema(description = "Roles assigned to the user")
-  private Set<String> roles;
 }

@@ -5,7 +5,6 @@ import com.hype360kh.serviceprofile.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,24 +64,21 @@ public class UserController {
   @PostMapping
   @Operation(summary = "Create a new user", description = "Create a new user with the provided details")
   public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-    UserDto createdUser = userService.create(userDto);
+    UserDto createdUser = userService.addUser(userDto);
     return ResponseEntity.status(201).body(createdUser);
   }
 
   /**
    * PUT /api/users/{id} : update an existing user.
    *
-   * @param id      the id of the user to update
    * @param userDto the user to update
    * @return the ResponseEntity with status 200 (OK) and with body the updated user, or with status
    * 404 (Not Found)
    */
-  @PutMapping("/{id}")
+  @PutMapping
   @Operation(summary = "Update an existing user", description = "Update an existing user with the provided details")
-  public ResponseEntity<UserDto> updateUser(@PathVariable Long id,
-      @RequestBody UserDto userDto) {
-    Optional<UserDto> updatedUser = userService.update(id, userDto);
-    return updatedUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+  public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
+    return ResponseEntity.ok(this.userService.updateUser(userDto));
   }
 
   /**

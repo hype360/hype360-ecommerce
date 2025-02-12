@@ -6,14 +6,17 @@ import com.hype360kh.serviceprofile.model.dto.UserDto;
 import com.hype360kh.serviceprofile.model.entity.UserEntity;
 import com.hype360kh.serviceprofile.model.entity.UserEntity_;
 import com.hype360kh.serviceprofile.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import security.password.PasswordGenerator;
+import security.password.PasswordManager;
 
 /**
  * Service class for managing users.
  */
 @Service
+@Slf4j
 public class UserService extends
     AbstractCrudService<UserEntity, UserDto, Long, UserRepository> {
 
@@ -38,7 +41,16 @@ public class UserService extends
         .withSymbols(true)
         .build().generate();
 
-    userDto.setPassword(generatedPassword);
+    // Generate encrypted password using JWT token
+    final var encryptedPassword = PasswordManager.getInstance().hashPassword(generatedPassword);
+    userDto.setPassword(encryptedPassword);
     return create(userDto);
+  }
+
+  public UserDto updateUser(UserDto userDto) {
+    UserDto existedUser = getByIdOrThrow(userDto.getId());
+    existedUser.setEmail(userDto.getEmail());
+    UserEntity updatedUser = repository.save(dtoToEntity(existedUser));
+    return entityToDto(updatedUser);
   }
 }
